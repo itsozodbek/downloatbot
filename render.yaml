@@ -1,7 +1,16 @@
 services:
   - type: web
     name: downloatbot
-    env: docker
+    runtime: docker
     plan: free
     dockerfilePath: Dockerfile
     autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: BOT_TOKEN
+        value: 8545045154:AAEgxLX2Y8dl5ozfv8C1Q8I64zfoDxoGpl0
+      - key: ADMIN_ID
+        value: 7394490565
+      - key: BOT_USERNAME
+        value: Downloatbot
