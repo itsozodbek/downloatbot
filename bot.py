@@ -19,6 +19,23 @@ if sys.platform == "win32":
         pass
 
 import aiosqlite
+from aiohttp import web
+
+async def start_web_healthcheck():
+    port = int(os.environ.get("PORT", "10000"))
+    app = web.Application()
+    async def index(request):
+        return web.Response(text="🚀 Downloatbot is live and running!")
+    async def health(request):
+        return web.Response(text="OK")
+    app.router.add_get("/", index)
+    app.router.add_get("/health", health)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    print(f"Healthcheck web server successfully running on port {port}")
+
 from dotenv import load_dotenv
 import yt_dlp
 
@@ -2021,10 +2038,7 @@ async def main():
         sys.exit(1)
 
     await init_db()
-    try:
-        await start_web_healthcheck()
-    except Exception as e:
-        print('Healthcheck note:', e)
+    
     print("Ma'lumotlar bazasi tayyorlandi.")
 
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
