@@ -3,4 +3,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg curl nod
 WORKDIR /app
 COPY . /app
 RUN pip install --no-cache-dir aiogram aiosqlite yt-dlp python-dotenv imageio-ffmpeg
+EXPOSE 10000
 CMD ["python", "bot.py"]
